@@ -98,18 +98,11 @@
             100% { transform: translate(5%, 10%) scale(1.1); }
         }
 
-        /* Custom Cursor - ONLY ON DESKTOP (fine pointer + min-width) */
+        /* Custom Cursor - ONLY ON DESKTOP */
         @media (pointer: fine) and (min-width: 1024px) {
-            .cursor-dot, .cursor-outline {
-                display: block;
-            }
             body, a, button, .btn {
                 cursor: none;
             }
-        }
-        
-        .cursor-dot, .cursor-outline {
-            display: none;
         }
         
         .cursor-dot {
@@ -123,8 +116,9 @@
             transform: translate(-50%, -50%);
             box-shadow: 0 0 15px var(--accent-1);
             transition: width 0.2s, height 0.2s, background 0.2s, opacity 0.2s;
+            display: none;
         }
-
+        
         .cursor-outline {
             position: fixed;
             top: 0; left: 0;
@@ -135,6 +129,13 @@
             z-index: 9999;
             transform: translate(-50%, -50%);
             transition: width 0.2s, height 0.2s, background 0.2s, opacity 0.2s;
+            display: none;
+        }
+
+        @media (pointer: fine) and (min-width: 1024px) {
+            .cursor-dot, .cursor-outline {
+                display: block;
+            }
         }
 
         body.hovering .cursor-dot {
@@ -285,7 +286,7 @@
             font-size: 1.1rem;
         }
 
-        /* Navbar - desktop (untouched) */
+        /* Navbar - ALL nav links now have border styling (like Message button) */
         .navbar {
             position: fixed;
             top: 0;
@@ -333,17 +334,42 @@
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 2rem;
+            gap: 1rem;
         }
 
+        /* ALL nav links (Work, Pricing, Email) now have the same border styling as Message button */
         .nav-link {
             font-weight: 500;
             color: var(--text-muted);
             transition: var(--transition);
+            border: 1px solid var(--glass-border);
+            background: transparent;
+            padding: 0.5rem 1.2rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .nav-link:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
             color: white;
+        }
+
+        /* Message button styling (kept consistent) */
+        .btn-outline {
+            border: 1px solid var(--glass-border);
+            background: transparent;
+            color: white;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-outline:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         /* Hero */
@@ -690,7 +716,7 @@
             to { text-shadow: 0 0 20px rgba(255,255,255,0.3); }
         }
 
-        /* ---------- MOBILE ONLY: PROFESSIONAL HEADER SPACING & FULL NAVIGATION ---------- */
+        /* ---------- MOBILE ONLY: PROFESSIONAL HEADER SPACING ---------- */
         @media (max-width: 768px) {
             .container {
                 padding: 0 1.25rem;
@@ -768,7 +794,7 @@
                 text-align: center;
                 max-width: 100%;
             }
-            /* PROFESSIONAL MOBILE HEADER - proper spacing, full links visible */
+            /* Mobile header: all nav links have border styling, properly spaced */
             .navbar {
                 padding: 0.9rem 0;
             }
@@ -778,7 +804,7 @@
             .nav-content {
                 padding: 0 1.25rem;
                 flex-wrap: wrap;
-                gap: 0.6rem;
+                gap: 0.8rem;
             }
             .logo {
                 font-size: 1.5rem;
@@ -787,20 +813,18 @@
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
-                gap: 0.9rem;
-                width: auto;
+                gap: 0.7rem;
+                width: 100%;
             }
             .nav-link {
-                display: inline-block !important;
-                font-size: 0.8rem;
-                font-weight: 500;
-                padding: 0.2rem 0;
-            }
-            .nav-link i {
-                margin-right: 0.2rem;
+                font-size: 0.75rem;
+                padding: 0.4rem 0.9rem;
+                border: 1px solid var(--glass-border);
+                border-radius: 100px;
+                background: transparent;
             }
             .btn-outline {
-                padding: 0.4rem 1rem;
+                padding: 0.4rem 0.9rem;
                 font-size: 0.75rem;
                 white-space: nowrap;
             }
@@ -825,7 +849,6 @@
             }
         }
 
-        /* Extra small devices - further refinement */
         @media (max-width: 480px) {
             .hero-title {
                 font-size: 1.8rem;
@@ -841,10 +864,11 @@
                 font-size: 0.9rem;
             }
             .nav-links {
-                gap: 0.6rem;
+                gap: 0.5rem;
             }
             .nav-link {
                 font-size: 0.7rem;
+                padding: 0.3rem 0.7rem;
             }
             .btn-outline {
                 padding: 0.3rem 0.7rem;
@@ -872,7 +896,7 @@
                 <a href="#work" class="nav-link"><i class="fa-regular fa-image"></i> Work</a>
                 <a href="#pricing" class="nav-link"><i class="fa-solid fa-tag"></i> Pricing</a>
                 <a href="https://mail.google.com/mail/?view=cm&fs=1&to=coolps.design@gmail.com" target="_blank" class="nav-link"><i class="fa-solid fa-envelope"></i> Email</a>
-                <a href="https://t.me/Coolps07" target="_blank" class="btn btn-outline"><i class="fa-brands fa-telegram"></i> Message</a>
+                <a href="https://t.me/Coolps07" target="_blank" class="btn btn-outline"><i class="fa-brands fa-telegram"></i> Message Me</a>
             </div>
         </div>
     </nav>
@@ -910,7 +934,7 @@
                         <p>That's how long a viewer takes to decide whether to click. Your thumbnail needs to communicate value instantly.</p>
                     </div>
                     <div class="card glass-card reveal delay-2">
-                        <div class="card-icon"><i class="fa-solid fa-chart-line-down"></i></div>
+                        <div class="card-icon"><i class="fa-solid fa-chart-line-down"></i><i class="fa-solid fa-arrow-trend-down"></i></div>
                         <h3>Low CTR = Hidden</h3>
                         <p>If less than 3–5% turn into clicks, the algorithm stops pushing your video. You lose free exposure.</p>
                     </div>
@@ -1030,7 +1054,7 @@
             const preloader = document.querySelector('.preloader');
             if(preloader) setTimeout(() => preloader.classList.add('hidden'), 600);
             
-            // Desktop-only cursor & effects (min-width 1024px)
+            // Desktop-only cursor & effects
             if(window.matchMedia("(pointer: fine)").matches && window.innerWidth >= 1024){
                 const cursorDot = document.querySelector('.cursor-dot');
                 const cursorOutline = document.querySelector('.cursor-outline');
