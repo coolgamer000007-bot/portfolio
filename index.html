@@ -286,7 +286,7 @@
             font-size: 1.1rem;
         }
 
-        /* Navbar - ALL nav links now have border styling (like Message button) */
+        /* Navbar */
         .navbar {
             position: fixed;
             top: 0;
@@ -337,7 +337,6 @@
             gap: 1rem;
         }
 
-        /* ALL nav links (Work, Pricing, Email) now have the same border styling as Message button */
         .nav-link {
             font-weight: 500;
             color: var(--text-muted);
@@ -358,7 +357,6 @@
             color: white;
         }
 
-        /* Message button styling (kept consistent) */
         .btn-outline {
             border: 1px solid var(--glass-border);
             background: transparent;
@@ -414,6 +412,13 @@
             font-size: clamp(3rem, 8vw, 6rem);
             margin-bottom: 1.5rem;
             line-height: 1.05;
+        }
+
+        /* Counter number styling */
+        .counter-number {
+            display: inline-block;
+            min-width: 120px;
+            text-align: center;
         }
 
         .hero-subtitle {
@@ -716,7 +721,7 @@
             to { text-shadow: 0 0 20px rgba(255,255,255,0.3); }
         }
 
-        /* ---------- MOBILE ONLY: PROFESSIONAL HEADER SPACING ---------- */
+        /* ---------- MOBILE ONLY ---------- */
         @media (max-width: 768px) {
             .container {
                 padding: 0 1.25rem;
@@ -794,7 +799,6 @@
                 text-align: center;
                 max-width: 100%;
             }
-            /* Mobile header: all nav links have border styling, properly spaced */
             .navbar {
                 padding: 0.9rem 0;
             }
@@ -819,14 +823,10 @@
             .nav-link {
                 font-size: 0.75rem;
                 padding: 0.4rem 0.9rem;
-                border: 1px solid var(--glass-border);
-                border-radius: 100px;
-                background: transparent;
             }
             .btn-outline {
                 padding: 0.4rem 0.9rem;
                 font-size: 0.75rem;
-                white-space: nowrap;
             }
             .caption-badge span {
                 font-size: 0.7rem;
@@ -843,9 +843,11 @@
             .hero-cta {
                 gap: 0.6rem;
             }
-            /* Hide custom cursor on mobile */
             .cursor-dot, .cursor-outline {
                 display: none !important;
+            }
+            .counter-number {
+                min-width: 80px;
             }
         }
 
@@ -908,7 +910,7 @@
                     <span class="pulse-dot"></span> Available for new projects
                 </div>
                 <h1 class="hero-title fade-up" style="animation-delay: 0.2s">
-                    Your thumbnail is losing you <br><span class="text-gradient">10,000 views</span>
+                    Your thumbnail is losing you <br><span class="text-gradient"><span class="counter-number" id="viewsCounter">0</span> views</span>
                 </h1>
                 <p class="hero-subtitle fade-up" style="animation-delay: 0.3s">
                     I design YouTube thumbnails that stop the scroll and force the click. No generic templates. No stock vibes. Just clean, aggressive thumbnail design built around your viewer's psychology.
@@ -1022,17 +1024,67 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // ========== COUNTER ANIMATION FOR 10,000 ==========
+            const counterElement = document.getElementById('viewsCounter');
+            if (counterElement) {
+                const targetNumber = 10000;
+                let currentNumber = 0;
+                let animationStarted = false;
+                
+                const animateCounter = () => {
+                    if (animationStarted) return;
+                    animationStarted = true;
+                    
+                    const duration = 2000; // 2 seconds
+                    const stepTime = 20; // update every 20ms
+                    const steps = duration / stepTime;
+                    const increment = targetNumber / steps;
+                    let step = 0;
+                    
+                    const interval = setInterval(() => {
+                        step++;
+                        currentNumber = Math.min(Math.floor(increment * step), targetNumber);
+                        counterElement.innerText = currentNumber.toLocaleString();
+                        
+                        if (currentNumber >= targetNumber) {
+                            clearInterval(interval);
+                            counterElement.innerText = targetNumber.toLocaleString();
+                        }
+                    }, stepTime);
+                };
+                
+                // Use Intersection Observer to trigger counter when hero comes into view
+                const heroSection = document.querySelector('.hero');
+                if (heroSection) {
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting && !animationStarted) {
+                                animateCounter();
+                            }
+                        });
+                    }, { threshold: 0.3 });
+                    observer.observe(heroSection);
+                } else {
+                    // Fallback: start after a short delay
+                    setTimeout(animateCounter, 500);
+                }
+            }
+            
+            // ========== NAVBAR SCROLL EFFECT ==========
             const navbar = document.querySelector('.navbar');
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 50) navbar.classList.add('scrolled');
                 else navbar.classList.remove('scrolled');
             });
+            
+            // ========== SCROLL REVEAL ANIMATIONS ==========
             const revealElements = document.querySelectorAll('.reveal');
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
             }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
             revealElements.forEach(el => revealObserver.observe(el));
             
+            // ========== WORD REVEAL FOR SUBTITLE ==========
             const subtitle = document.querySelector('.hero-subtitle');
             if(subtitle && !subtitle.classList.contains('processed')){
                 const text = subtitle.innerText;
@@ -1051,10 +1103,11 @@
                 subtitle.classList.add('processed');
             }
             
+            // ========== PRELOADER ==========
             const preloader = document.querySelector('.preloader');
             if(preloader) setTimeout(() => preloader.classList.add('hidden'), 600);
             
-            // Desktop-only cursor & effects
+            // ========== DESKTOP-ONLY CURSOR & 3D EFFECTS ==========
             if(window.matchMedia("(pointer: fine)").matches && window.innerWidth >= 1024){
                 const cursorDot = document.querySelector('.cursor-dot');
                 const cursorOutline = document.querySelector('.cursor-outline');
