@@ -414,7 +414,6 @@
             line-height: 1.05;
         }
 
-        /* Counter number styling */
         .counter-number {
             display: inline-block;
             min-width: 120px;
@@ -1012,6 +1011,8 @@
                 <div class="footer-socials">
                     <a href="https://mail.google.com/mail/?view=cm&fs=1&to=coolps.design@gmail.com" target="_blank" class="social-icon" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
                     <a href="https://www.youtube.com/@Phoenix_verse07" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <!-- X (Twitter) link added -->
+                    <a href="https://x.com/coolpsdesign07" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
                     <a href="https://t.me/Coolps07" target="_blank" class="social-icon" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
                 </div>
             </div>
@@ -1035,8 +1036,8 @@
                     if (animationStarted) return;
                     animationStarted = true;
                     
-                    const duration = 2000; // 2 seconds
-                    const stepTime = 20; // update every 20ms
+                    const duration = 2000;
+                    const stepTime = 20;
                     const steps = duration / stepTime;
                     const increment = targetNumber / steps;
                     let step = 0;
@@ -1053,7 +1054,6 @@
                     }, stepTime);
                 };
                 
-                // Use Intersection Observer to trigger counter when hero comes into view
                 const heroSection = document.querySelector('.hero');
                 if (heroSection) {
                     const observer = new IntersectionObserver((entries) => {
@@ -1065,7 +1065,6 @@
                     }, { threshold: 0.3 });
                     observer.observe(heroSection);
                 } else {
-                    // Fallback: start after a short delay
                     setTimeout(animateCounter, 500);
                 }
             }
