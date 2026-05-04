@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>COOLPS — YouTube Thumbnail Designer | Increase CTR & Views</title>
+    <meta name="description" content="I design YouTube thumbnails that stop the scroll and force the click. Clean, aggressive thumbnail design built around your niche, your face, and your viewer's psychology.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ---------- RESET & BASE (DESKTOP FIRST - UNTOUCHED) ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg-color: #050505;
+            --bg-secondary: #111111;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent-1: #FF0055;
+            --accent-2: #FF7A00;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --font-heading: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-1);
+        }
+
+        /* Background Glow Orbs */
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.4;
+            pointer-events: none;
+            animation: float 20s infinite ease-in-out alternate;
+        }
+
+        .orb-1 {
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, rgba(255,0,85,0.4) 0%, rgba(255,0,85,0) 70%);
+            top: -10%;
+            left: -10%;
+        }
+
+        .orb-2 {
+            width: 35vw;
+            height: 35vw;
+            background: radial-gradient(circle, rgba(255,122,0,0.3) 0%, rgba(255,122,0,0) 70%);
+            bottom: 10%;
+            right: -5%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(5%, 10%) scale(1.1); }
+        }
+
+        /* Custom Cursor - DESKTOP preserved */
+        @media (pointer: fine) {
+            body, a, button, .slider-container {
+                cursor: none;
+            }
+        }
+
+        .cursor-dot {
+            position: fixed;
+            top: 0; left: 0;
+            width: 8px; height: 8px;
+            background: var(--accent-1);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px var(--accent-1);
+            transition: width 0.2s, height 0.2s, background 0.2s, opacity 0.2s;
+        }
+
+        .cursor-outline {
+            position: fixed;
+            top: 0; left: 0;
+            width: 40px; height: 40px;
+            border: 1px solid rgba(255, 0, 85, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background 0.2s, opacity 0.2s;
+        }
+
+        body.hovering .cursor-dot {
+            width: 0; height: 0; opacity: 0;
+        }
+
+        body.hovering .cursor-outline {
+            width: 60px; height: 60px;
+            background: rgba(255, 0, 85, 0.1);
+            border-color: var(--accent-1);
+            backdrop-filter: blur(2px);
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            line-height: 1.1;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .text-center { text-align: center; }
+
+        .text-gradient {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-1));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shine 3s linear infinite;
+        }
+
+        .text-gradient-red {
+            background: linear-gradient(135deg, #FF2A2A, #FF0055, #FF2A2A);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.8rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-family: var(--font-body);
+            transition: var(--transition);
+            cursor: pointer;
+            font-size: 1rem;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: white;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--accent-2), var(--accent-1));
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1;
+        }
+
+        .btn-primary:hover::before {
+            opacity: 1;
+        }
+
+        .btn-primary i, .btn-primary span {
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-glow {
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 30px rgba(255, 0, 85, 0.6), 0 0 10px rgba(255, 122, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--glass-border);
+            background: transparent;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-large {
+            padding: 1.2rem 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            color: white;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo span {
+            color: var(--accent-1);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: white;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #00FF66;
+            border-radius: 50%;
+            box-shadow: 0 0 0 rgba(0, 255, 102, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 102, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 255, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 255, 102, 0); }
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.05;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Sections */
+        section {
+            padding: 8rem 0;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(600px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px), rgba(255, 255, 255, 0.08), transparent 40%);
+            z-index: 0;
+            pointer-events: none;
+            border-radius: inherit;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .glass-card:hover::before {
+            opacity: 1;
+        }
+
+        .glass-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(255,0,85,0.1), rgba(255,122,0,0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent-1);
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 0, 85, 0.2);
+        }
+
+        /* SHOWCASE - ONLY AFTER.PNG (Slider Removed) */
+        .showcase-single {
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            border: 1px solid var(--glass-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .showcase-single:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 40px 70px rgba(0,0,0,0.6);
+        }
+        .thumbnail-final {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+        .caption-badge {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .caption-badge span {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 0.4rem 1.2rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        /* Fixed: centering the redesign note */
+        .redesign-note {
+            text-align: center;
+            margin: 1rem auto 0 auto;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            background: rgba(255,0,85,0.05);
+            display: table;
+            width: auto;
+            padding: 0.4rem 1.2rem;
+            border-radius: 100px;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Pricing */
+        .pricing-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3rem;
+            padding: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .pricing-wrapper::after {
+            content: '';
+            position: absolute;
+            top: -50%; right: -20%;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(255,0,85,0.15) 0%, rgba(255,0,85,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .pricing-features {
+            list-style: none;
+        }
+        .pricing-features li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.1rem;
+        }
+        .pricing-action {
+            background: rgba(0,0,0,0.3);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            min-width: 280px;
+        }
+        .price-tag {
+            margin-bottom: 2rem;
+        }
+        .price-tag .currency {
+            font-size: 2rem;
+            vertical-align: top;
+            font-weight: 700;
+        }
+        .price-tag .amount {
+            font-size: 5rem;
+            font-family: var(--font-heading);
+            font-weight: 900;
+            line-height: 1;
+        }
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 4rem 0 2rem;
+            background: var(--bg-secondary);
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        .footer-socials {
+            display: flex;
+            gap: 1rem;
+        }
+        .social-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        .social-icon:hover {
+            background: var(--accent-1);
+            border-color: var(--accent-1);
+            transform: translateY(-3px);
+        }
+        .footer-bottom {
+            border-top: 1px solid var(--glass-border);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .disclaimer {
+            max-width: 500px;
+            text-align: right;
+        }
+
+        /* Animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUpAnim 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeUpAnim {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .word-container {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+            margin-right: 0.2em;
+        }
+        .word-container .word {
+            display: inline-block;
+            transform: translateY(100%);
+            animation: slideUpWord 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes slideUpWord {
+            to { transform: translateY(0); }
+        }
+        .preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: var(--bg-color);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s, visibility 0.8s;
+        }
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .preloader-text {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 900;
+            animation: pulseLoader 2s infinite alternate;
+        }
+        @keyframes pulseLoader {
+            to { text-shadow: 0 0 20px rgba(255,255,255,0.3); }
+        }
+
+        /* ---------- RESPONSIVE: ONLY ADDITIONS FOR PERFECT MOBILE (DESKTOP INTACT) ---------- */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.25rem;
+            }
+            section {
+                padding: 4rem 0;
+            }
+            .hero {
+                padding-top: 4rem;
+                min-height: 90vh;
+            }
+            .hero-title {
+                font-size: clamp(2rem, 8vw, 3rem);
+                margin-bottom: 1rem;
+            }
+            .hero-subtitle {
+                font-size: 1rem;
+                margin-bottom: 1.8rem;
+            }
+            .btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+            .btn-large {
+                padding: 0.9rem 1.5rem;
+            }
+            .section-title {
+                font-size: clamp(1.8rem, 6vw, 2.5rem);
+                margin-bottom: 1rem;
+            }
+            .section-desc {
+                font-size: 0.95rem;
+                margin-bottom: 1.8rem;
+            }
+            .glass-card {
+                padding: 1.5rem;
+            }
+            .features-grid {
+                gap: 1rem;
+                margin-top: 2rem;
+                grid-template-columns: 1fr;
+            }
+            .card-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+            }
+            .pricing-wrapper {
+                padding: 1.5rem;
+                gap: 1.5rem;
+                flex-direction: column;
+            }
+            .pricing-action {
+                padding: 1.8rem;
+                width: 100%;
+            }
+            .price-tag .amount {
+                font-size: 3.8rem;
+            }
+            .action-buttons .btn {
+                width: 100%;
+            }
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                font-size: 0.7rem;
+            }
+            .disclaimer {
+                text-align: center;
+                max-width: 100%;
+            }
+            .nav-links a:not(.btn) {
+                display: none;
+            }
+            .nav-content {
+                padding: 0 1.25rem;
+            }
+            .logo {
+                font-size: 1.5rem;
+            }
+            .caption-badge span {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.8rem;
+            }
+            .redesign-note {
+                font-size: 0.7rem;
+                padding: 0.3rem 1rem;
+            }
+            .badge {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.8rem;
+            }
+            .hero-cta {
+                gap: 0.6rem;
+            }
+        }
+
+        /* Extra small devices (below 480px) */
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+            .glass-card h3 {
+                font-size: 1.2rem;
+            }
+            .pricing-features li {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="preloader">
+        <div class="preloader-text">COOLPS<span class="text-gradient">.</span></div>
+    </div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="#" class="logo">COOLPS<span>.</span></a>
+            <div class="nav-links">
+                <a href="#work" class="nav-link">Work</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=coolps.design@gmail.com" target="_blank" class="nav-link"><i class="fa-solid fa-envelope"></i> Email</a>
+                <a href="https://t.me/Coolps07" target="_blank" class="btn btn-outline">Message Me</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="container text-center">
+                <div class="badge fade-up" style="animation-delay: 0.1s">
+                    <span class="pulse-dot"></span> Available for new projects
+                </div>
+                <h1 class="hero-title fade-up" style="animation-delay: 0.2s">
+                    Your thumbnail is losing you <br><span class="text-gradient">10,000 views</span>
+                </h1>
+                <p class="hero-subtitle fade-up" style="animation-delay: 0.3s">
+                    I design YouTube thumbnails that stop the scroll and force the click. No generic templates. No stock vibes. Just clean, aggressive thumbnail design built around your viewer's psychology.
+                </p>
+                <div class="hero-cta fade-up" style="animation-delay: 0.4s">
+                    <a href="https://t.me/Coolps07" target="_blank" class="btn btn-primary btn-glow">
+                        Get Your Thumbnail Now <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="#work" class="btn btn-secondary">
+                        See My Work
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="problem" id="problem">
+            <div class="container">
+                <h2 class="section-title text-center reveal">Great videos die because of <span class="text-gradient-red">weak thumbnails</span></h2>
+                <div class="grid features-grid">
+                    <div class="card glass-card reveal delay-1">
+                        <div class="card-icon"><i class="fa-solid fa-stopwatch"></i></div>
+                        <h3>You have 0.4 seconds</h3>
+                        <p>That's how long a viewer takes to decide whether to click. Your thumbnail needs to communicate value instantly.</p>
+                    </div>
+                    <div class="card glass-card reveal delay-2">
+                        <div class="card-icon"><i class="fa-solid fa-chart-line-down"></i><i class="fa-solid fa-arrow-trend-down"></i></div>
+                        <h3>Low CTR = Hidden</h3>
+                        <p>If less than 3–5% turn into clicks, the algorithm stops pushing your video. You lose free exposure.</p>
+                    </div>
+                    <div class="card glass-card reveal delay-3">
+                        <div class="card-icon"><i class="fa-solid fa-brain"></i></div>
+                        <h3>Design Psychology</h3>
+                        <p>Color, contrast, faces, text — every element needs a reason. I make thumbnails that trigger psychological clicks.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="showcase" id="work">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2 class="section-title">My <span class="text-gradient">Redesign Concept</span></h2>
+                    <p class="section-desc">A complete redesign that transforms the original thumbnail into a high-CTR, scroll-stopping visual.<br><span style="font-size: 0.9rem; color: var(--text-muted); font-style: italic;">* Unsolicited fan-made concept created to demonstrate my design style and capabilities.</span></p>
+                </div>
+                <div class="reveal delay-1">
+                    <div class="showcase-single">
+                        <img src="after.png" alt="My Professional YouTube Thumbnail Redesign Concept - High CTR" class="thumbnail-final">
+                    </div>
+                    <div class="caption-badge">
+                        <span><i class="fa-regular fa-eye"></i> High-Impact Composition</span>
+                        <span><i class="fa-regular fa-clock"></i> 0.4s Attention Grab</span>
+                        <span><i class="fa-solid fa-chart-simple"></i> CTR-Focused Psychology</span>
+                    </div>
+                    <!-- FIXED: centered redesign note -->
+                    <div class="redesign-note">
+                        <i class="fa-solid fa-pen-fancy" style="margin-right: 6px;"></i> My redesign | Fan-made concept | Original creator respected
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pricing" id="pricing">
+            <div class="container">
+                <div class="pricing-wrapper glass-card reveal">
+                    <div class="pricing-content">
+                        <h2 class="section-title" style="font-size: clamp(1.8rem, 4vw, 2.8rem);">Stop leaving views on the table</h2>
+                        <p class="pricing-desc">Invest in thumbnails that actually pay for themselves through increased ad revenue and sponsorships.</p>
+                        <ul class="pricing-features">
+                            <li><i class="fa-solid fa-check text-gradient"></i> Custom Design (1920×1080)</li>
+                            <li><i class="fa-solid fa-check text-gradient"></i> High CTR-focused psychology</li>
+                            <li><i class="fa-solid fa-check text-gradient"></i> 1 revision included</li>
+                            <li><i class="fa-solid fa-check text-gradient"></i> 24-hour delivery</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-action">
+                        <div class="price-tag">
+                            <span class="currency">₹</span><span class="amount">400</span><span class="period">/thumb</span>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://t.me/Coolps07" target="_blank" class="btn btn-primary btn-glow btn-large">
+                                Order on Telegram <i class="fa-brands fa-telegram"></i>
+                            </a>
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=coolps.design@gmail.com" target="_blank" class="btn btn-secondary btn-large">
+                                Email Me <i class="fa-solid fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#" class="logo">COOLPS<span>.</span></a>
+                    <p>YouTube Thumbnail Designer</p>
+                </div>
+                <div class="footer-socials">
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=coolps.design@gmail.com" target="_blank" class="social-icon" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                    <!-- Updated YouTube link: opens Phoenix Verse channel -->
+                    <a href="https://www.youtube.com/@Phoenix_verse07" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://t.me/Coolps07" target="_blank" class="social-icon" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 COOLPS. All rights reserved.</p>
+                <p class="disclaimer">Disclaimer: The thumbnail shown is my own unsolicited redesign concept used to demonstrate my design abilities. I am not affiliated with the original creator.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.querySelector('.navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) navbar.classList.add('scrolled');
+                else navbar.classList.remove('scrolled');
+            });
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+            }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+            revealElements.forEach(el => revealObserver.observe(el));
+            
+            const subtitle = document.querySelector('.hero-subtitle');
+            if(subtitle && !subtitle.classList.contains('processed')){
+                const text = subtitle.innerText;
+                subtitle.innerHTML = '';
+                const words = text.split(' ');
+                words.forEach((word, idx) => {
+                    const container = document.createElement('span');
+                    container.className = 'word-container';
+                    const wordSpan = document.createElement('span');
+                    wordSpan.className = 'word';
+                    wordSpan.innerText = word;
+                    wordSpan.style.animationDelay = `${0.4 + (idx * 0.04)}s`;
+                    container.appendChild(wordSpan);
+                    subtitle.appendChild(container);
+                });
+                subtitle.classList.add('processed');
+            }
+            
+            const preloader = document.querySelector('.preloader');
+            if(preloader) setTimeout(() => preloader.classList.add('hidden'), 600);
+            
+            if(window.matchMedia("(pointer: fine)").matches){
+                const cursorDot = document.querySelector('.cursor-dot');
+                const cursorOutline = document.querySelector('.cursor-outline');
+                if(cursorDot && cursorOutline){
+                    window.addEventListener('mousemove', (e) => {
+                        cursorDot.style.left = `${e.clientX}px`;
+                        cursorDot.style.top = `${e.clientY}px`;
+                        cursorOutline.style.left = `${e.clientX}px`;
+                        cursorOutline.style.top = `${e.clientY}px`;
+                    });
+                    const hoverEls = document.querySelectorAll('a, button, .glass-card, .showcase-single');
+                    hoverEls.forEach(el => {
+                        el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+                        el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+                    });
+                }
+                const cards = document.querySelectorAll('.glass-card');
+                cards.forEach(card => {
+                    card.addEventListener('mousemove', (e) => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        card.style.setProperty('--mouse-x', `${x}px`);
+                        card.style.setProperty('--mouse-y', `${y}px`);
+                        const centerX = rect.width/2, centerY = rect.height/2;
+                        const rotateX = ((y - centerY)/centerY) * -10;
+                        const rotateY = ((x - centerX)/centerX) * 10;
+                        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                    });
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                        card.style.setProperty('--mouse-x', `-1000px`);
+                        card.style.setProperty('--mouse-y', `-1000px`);
+                    });
+                });
+                const btns = document.querySelectorAll('.btn, .social-icon');
+                btns.forEach(btn => {
+                    btn.addEventListener('mousemove', (e) => {
+                        const rect = btn.getBoundingClientRect();
+                        const x = e.clientX - rect.left - rect.width/2;
+                        const y = e.clientY - rect.top - rect.height/2;
+                        btn.style.transform = `translate(${x*0.2}px, ${y*0.2}px)`;
+                    });
+                    btn.addEventListener('mouseleave', () => btn.style.transform = 'translate(0px, 0px)');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
