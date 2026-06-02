@@ -1,4 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // ========== MOBILE EMAIL LINK CORRECTION ==========
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+        const emailLinks = document.querySelectorAll('a[href*="mail.google.com/mail"]');
+        emailLinks.forEach(link => {
+            link.href = 'mailto:coolps.design@gmail.com';
+            link.removeAttribute('target');
+        });
+    }
+
     // 1. Sticky Navbar Logic
     const navbar = document.querySelector('.navbar');
     
